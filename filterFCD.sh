@@ -30,7 +30,8 @@ Filter fcd output trace from sumo simulation in xml format and save the
  Default option filters vehicles whithin a radial distance of 500 units
  from vehicles of interest.
 
-Mandatory arguments to long options are mandatory for short options too.
+OPTIONS:
+
   -v [FILE/STRING], Input a csv file with your vehicles of interst; or just a 
                      string with the names of your vehicles separated by space.
   -k [FILE/STRING], Input a csv file with your vehicles to be tracked; or just a 
