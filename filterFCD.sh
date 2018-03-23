@@ -21,7 +21,7 @@ declare -a tracked_v
 
 
 # Get the program options
-while getopts "crv:k:hd:j:btisa" OPTION; do
+while getopts "crv:k:hd:j:btisaz" OPTION; do
     case $OPTION in
         h)
 echo "Usage: filterFCD OPTIONS... [FILE]
