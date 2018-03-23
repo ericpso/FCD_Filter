@@ -7,10 +7,8 @@ Below is the help usage of the filtering tool.
 
 **Usage: filterFCD OPTIONS... [FILE]**
 
-Filter fcd output trace from sumo simulation in xml format and save the
- filtered version in ./filtered/ with the prefix \"filtered_\" appended.
- Default option filters vehicles whithin a radial distance of 500 units
- from vehicles of interest.
+The application filters the FCD output trace from SUMO simulation and save the
+ filtered version in ./filtered/ with the prefix "filtered_" appended. The default filtering configuration uses a radial distance of 500 meters around the vehicles of interest and uses neither tracking nor infection of interest. When no vehicles of interest are provided, only area and time-based filtering are performed if the appropriate arguments are provided.
 
 ## Options
 
