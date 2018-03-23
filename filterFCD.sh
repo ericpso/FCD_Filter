@@ -24,7 +24,7 @@ declare -a tracked_v
 while getopts "crv:k:hd:j:btisaz" OPTION; do
     case $OPTION in
         h)
-echo "Usage: filterFCD OPTIONS... [FILE]
+echo "Usage: ./filterFCD.sh OPTIONS... [FILE]
 Filter fcd output trace from sumo simulation in xml format and save the
  filtered version in ./filtered/ with the prefix \"filtered_\" appended.
  Default option filters vehicles whithin a radial distance of 500 units
@@ -36,7 +36,7 @@ OPTIONS:
                      string with the names of your vehicles separated by space.
   -k [FILE/STRING]  Input a csv file with your vehicles to be tracked; or just a 
                      string with the names of your vehicles separated by space.
-                     tracked vehicles will be in the final trace even if they are
+                     Tracked vehicles will be in the final trace even if they are
                      outside the area of interest.
   -h                Displays this help page.
   -c                Filter vehicles inside a square arround the vehicles of
@@ -1120,7 +1120,7 @@ else
     esac
 fi
 
-if [ Delta_time -eq 1 ]
+if [[ Delta_time -eq 1 ]]
     then
     awk '
     BEGIN{
@@ -1137,3 +1137,4 @@ if [ Delta_time -eq 1 ]
 
 mv -f ./filtered/D_filtered_$1 ./filtered/filtered_$1
 fi
+
