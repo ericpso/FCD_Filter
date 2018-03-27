@@ -12,7 +12,7 @@ The application filters the FCD output trace from SUMO simulation and save the
 
 ## Options
 
-  **-v [FILE/STRING]:** Input a csv file with your vehicles of interst; or just a 
+  **-v [FILE/STRING]:** Input a csv file with your vehicles of interest; or just a 
                      string with the names of your vehicles separated by space.
                      
   **-k [FILE/STRING]:** Input a csv file with your vehicles to be tracked; or just a 
@@ -22,18 +22,18 @@ The application filters the FCD output trace from SUMO simulation and save the
                      
   **-h:**                Displays this help page.
   
-  **-c:**               Filter vehicles inside a square arround the vehicles of
+  **-c:**               Filter vehicles inside a square around the vehicles of
                      interest (faster filtering).
                      
   **-r:**               Filter a radial distance from the vehicles of interest.
   **-d [distance]:**     Define the filtering distance used by the cubic and radial
-                     filtering. Defaut value is 500 units.
+                     filtering. Default value is 500 units.
                      
   **j [# max_jumps]:**  Define the maximum number of jumps a infection of interest
                      can have. Default value is 1.
                      
-  **-b:**               Delimit the optimal filtering box area arround the vehicles
-                     of interest. Vehicle traces outside the box are discarted.
+  **-b:**               Delimit the optimal filtering box area around the vehicles
+                     of interest. Vehicle traces outside the box are discarded.
                      \"distance\" value is used as a buffer space around the box.
                      
   **-b \"x1 y1 x2 y2\":** Filter traces inside the box delimited by \"x1 y1 x2 y2\"
