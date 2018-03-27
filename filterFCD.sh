@@ -1,5 +1,5 @@
 #!/bin/bash
-# Has "gawk", "cut", "sed" and "cat" as a dependencies
+# Has "gawk", "cut", "sed", "cat" and tac as a dependencies
 
 # Initialize default variables
 distance=500
@@ -32,23 +32,23 @@ Filter fcd output trace from sumo simulation in xml format and save the
 
 OPTIONS:
 
-  -v [FILE/STRING]  Input a csv file with your vehicles of interst; or just a 
+  -v [FILE/STRING]  Input a csv file with your vehicles of interest; or just a 
                      string with the names of your vehicles separated by space.
   -k [FILE/STRING]  Input a csv file with your vehicles to be tracked; or just a 
                      string with the names of your vehicles separated by space.
                      Tracked vehicles will be in the final trace even if they are
                      outside the area of interest.
   -h                Displays this help page.
-  -c                Filter vehicles inside a square arround the vehicles of
+  -c                Filter vehicles inside a square around the vehicles of
                      interest (faster filtering).
   -r                Filter a radial distance from the vehicles of interest.
   -d [distance]     Define the filtering distance used by the cubic and radial
-                     filtering. Defaut value is 500 units.
+                     filtering. Default value is 500 units.
   -j [# max_jumps]  Define the maximum number of jumps a infection of interest
                      can have. Default value is 1.
-  -b                Delimit the optimal filtering box area arround the vehicles
-                     of interest. Vehicle traces that dont go through the box 
-                     are discarted. \"distance\" value is used as a buffer space
+  -b                Delimit the optimal filtering box area around the vehicles
+                     of interest. Vehicle traces that don't go through the box 
+                     are discarded. \"distance\" value is used as a buffer space
                      around the box.
   -b \"x1 y1 x2 y2\"  Filter traces inside the box delimited by \"x1 y1 x2 y2\"
                      defining the lower left and the upper right corner of the
@@ -146,7 +146,7 @@ OPTIONS:
         Time_tracking=1
         ;;
 
-        t) # Get arguments and set time pre-filtering. If there are no arguments, optimal time filtering is used.
+        t) # Get arguments and set time pre-filtering. If there are no arguments, optimal time filtering is used based on vehicles of interest.
 
         if [[ ${@:$OPTIND:1} =~ ^[0-9]+([\.][0-9]+)?\ [0-9]+([\.][0-9]+)?$ ]]
         then
@@ -512,7 +512,7 @@ else
                                 }
 
                                 else{
-                                    # added a string at the begining so an overwrite to a number key already existent doesnt happen
+                                    # added a string at the beginning so an overwrite to a number key already existent doesnt happen
                                     # "1_" indicate that it is the first jump of the infection
                                     myVehicles[1"_"$2]=$2;
                                     break
@@ -795,7 +795,7 @@ else
                         break
                     }
                 }
-                if (next_line){continue} # Workarround to use multilevel continues.
+                if (next_line){continue} # Workaround to use multilevel continues.
 
                 if (Interest_Infect){
                     print_line=0;
@@ -870,7 +870,7 @@ else
 
                     for (v in my_x){
                         if (cDistance($4,my_x[v],$6,my_y[v]) < distance){
-                            # added a string at the begining so an overwrite to a number key already existent doesnt happen
+                            # added a string at the beginning so an overwrite to a number key already existent doesnt happen
                             if (tracking_F){myTracked_v["_"$2]=$2} 
 
                             print $0
@@ -1001,7 +1001,7 @@ else
                         break
                     }
                 }
-                if (next_line){continue} # Workarround to use multilevel continues.
+                if (next_line){continue} # Workaround to use multilevel continues.
 
                 if (Interest_Infect){
                     print_line=0;
@@ -1076,7 +1076,7 @@ else
 
                     for (v in my_x){
                         if (rDistance($4,my_x[v],$6,my_y[v]) < distance){
-                            # added a string at the begining so an overwrite to a number key already existent doesnt happen
+                            # added a string at the beginning so an overwrite to a number key already existent doesnt happen
                             if (tracking_F){myTracked_v["_"$2]=$2} 
 
                             print $0
@@ -1137,4 +1137,3 @@ if [[ Delta_time -eq 1 ]]
 
 mv -f ./filtered/D_filtered_$1 ./filtered/filtered_$1
 fi
-
