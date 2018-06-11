@@ -3,7 +3,7 @@
 
 # Initialize default variables
 distance=500
-filterMode=1
+filterMode=2
 
 optimal_timesteps=0
 optimal_Box=0
@@ -27,7 +27,7 @@ while getopts "crv:k:hd:j:btisaz" OPTION; do
 echo "Usage: ./filterFCD.sh OPTIONS... [FILE]
 Filter fcd output trace from sumo simulation in xml format and save the
  filtered version in ./filtered/ with the prefix \"filtered_\" appended.
- Default option filters vehicles whithin a radial distance of 500 units
+ Default option filters vehicles within a radial distance of 500 units
  from vehicles of interest.
 
 OPTIONS:
