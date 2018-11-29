@@ -58,9 +58,10 @@ OPTIONS:
   -t \"BEGIN END\"    Filters only the timesteps from the trace between the
                      timesteps BEGIN and END.
   -i                Vehicles that go inside the filtering area of the trace 
-                     are tracked throughout the whole trace, if -1 is given
-                     as argument, traces outside of the delimiting box are 
-                     ignored.
+                     are tracked throughout the whole trace. If -1 is given
+                     as an argument, traces outside of the delimiting box 
+                     from option \"-b\" are ignored and vehicles are not set
+                     for tracking.
   -s                Vehicles that go in contact with vehicles of interest become 
                      vehicles of interest themselves.
   -a                Vehicles that go in contact with vehicles of interest get 
@@ -134,15 +135,16 @@ OPTIONS:
         then
             box_bound=1
             OPTIND=$((OPTIND+1))
+        else
+            tracking_F=1
         fi
-        tracking_F=1
         ;;
 
         s)
         Interest_Infect=1
         ;;
 
-        a)
+        a) # vehicles get tracked backwards in time
         Time_tracking=1
         ;;
 
@@ -571,7 +573,7 @@ else
 
                 output_line;
                 ' $1; else cat $1; fi  |
-                awk -v vehicles="${vehicles[*]}" -v distance=$distance -v optTime=$optimal_timesteps -v min_x=${init[0]} -v min_y=${init[1]} -v max_x=${init[0]} -v max_y=${init[1]} '
+                awk -v vehicles="${vehicles[*]}" -v distance=$distance -v min_x=${init[0]} -v min_y=${init[1]} -v max_x=${init[0]} -v max_y=${init[1]} '
                     BEGIN{FS="\""; # define field separator as "
                     split(vehicles,myVehicles," ") # create a list of vehicles of interest.
                     }
@@ -689,7 +691,7 @@ else
                     '
 
     elif [[ ! -z $BEGIN ]]
-        then # First the file is time filtered if BEGIN and END are specified. Then, they are piped to an awk.
+        then # First the file is time filtered if BEGIN and END are specified and it was not already filtered by "boxFilter". Then, they are piped to an awk.
         awk -v start=$BEGIN -v end=$END '
         BEGIN{
             # define field separator as "
