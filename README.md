@@ -8,7 +8,7 @@ Below is the help usage of the filtering tool.
 **Usage: filterFCD OPTIONS... [FILE]**
 
 The application filters the FCD output trace from SUMO simulation and save the
- filtered version in ./filtered/ with the prefix "filtered_" appended. The default filtering configuration uses a radial distance of 500 meters around the vehicles of interest and uses neither tracking nor infection of interest. When no vehicles of interest are provided, only area and time-based filtering are performed if the appropriate arguments are provided.
+ filtered version in ./filtered/ with the prefix "filtered_" appended. The default filtering configuration uses a radial distance of 500 meters around the vehicles of interest and uses neither tracking nor infection of interest. When no vehicles of interest are provided, only the area and time-based filtering are performed if the appropriate arguments are provided.
 
 ## Options
 
@@ -58,6 +58,8 @@ The application filters the FCD output trace from SUMO simulation and save the
   **-a:**                Vehicles that go in contact with vehicles of interest get 
                      tracked backwards in time and infect others backwards in 
                      time.
+                     
+  **-o [filename]:**     Renames the output file that is sent to ./filtered/ as "filename".
                      
   **-z:**               Shift timesteps so that the first timestep is at the moment 
                      0 of the simulation.
