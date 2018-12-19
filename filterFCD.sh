@@ -16,12 +16,13 @@ Interest_Infect=0
 Time_tracking=0
 max_jumps=1
 
+output_file="./filtered/filtered_${!#}"
 
 declare -a tracked_v
 
 
 # Get the program options
-while getopts "crv:k:hd:j:btisaz" OPTION; do
+while getopts "crv:k:hd:j:btisazo:" OPTION; do
     case $OPTION in
         h)
 echo "Usage: ./filterFCD.sh OPTIONS... [FILE]
@@ -67,9 +68,15 @@ OPTIONS:
   -a                Vehicles that go in contact with vehicles of interest get 
                      tracked backwards in time and infect others backwards in 
                      time.
+  -o [filename]     Renames the output file that is sent to ./filtered/ as 
+                     \"filename\".
   -z                Shift timesteps so that the first timestep is at the moment 
                      0 of the simulation."
 
+        ;;
+
+        o)
+        output_file="./filtered/$OPTARG"
         ;;
 
         d)
@@ -264,7 +271,7 @@ then
                     }
 
                     1
-                ' > ./filtered/filtered_$1; else cat > ./filtered/filtered_$1; fi
+                ' > output_file; else cat > output_file; fi
 else 
     if [ $Time_tracking -eq 1 ]
         then
@@ -911,7 +918,7 @@ else
         else print
 
 
-        }' > "./filtered/filtered_$1"
+        }' > "output_file"
     ;;
 
 
@@ -1117,7 +1124,7 @@ else
         else print
 
 
-        }' > "./filtered/filtered_$1"
+        }' > "output_file"
     ;;
     esac
 fi
@@ -1135,7 +1142,7 @@ if [[ Delta_time -eq 1 ]]
             $2="\""$2-first_timestep"\""
         }
         1
-    ' ./filtered/filtered_$1 > ./filtered/D_filtered_$1
+    ' output_file > ./filtered/D_filtered_$1
 
-mv -f ./filtered/D_filtered_$1 ./filtered/filtered_$1
+mv -f ./filtered/D_filtered_$1 output_file
 fi
