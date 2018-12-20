@@ -554,18 +554,6 @@ else
     if [[ boxFilter -eq 1 ]]; then
         if [[ $optimal_Box -eq 1 ]] # If optimal_Box==1 then a first scan is necessary to get the ideal bounding box.
         then 
-            # Need to get a initializer for the min and max coordinates so sample from the first vehicle of interest found.
-            for v in $vehicles
-            do
-            init=($(sed -n "/"id=\"$v"/p" $1 | cut -sd"\"" --output-delimiter=" " -f4,6))
-            if [ ! -z $init ]
-            then
-            break
-            fi
-            done
-
-            if [ -z $init ]; then echo "No vehicle of interest was found for option \"-b\"" >&2 ; exit 1; fi
-
             # First the file is time filtered if BEGIN and END are specified. Then, they are piped to an awk.
             Box=($(if [[ ! -z $BEGIN ]]; then awk -v start=$BEGIN -v end=$END '
                 BEGIN{
@@ -580,7 +568,7 @@ else
 
                 output_line;
                 ' $1; else cat $1; fi  |
-                awk -v vehicles="${vehicles[*]}" -v distance=$distance -v min_x=${init[0]} -v min_y=${init[1]} -v max_x=${init[0]} -v max_y=${init[1]} '
+                awk -v vehicles="${vehicles[*]}" -v distance=$distance -v min_x=inf -v min_y=inf -v max_x=-inf -v max_y=-inf '
                     BEGIN{FS="\""; # define field separator as "
                     split(vehicles,myVehicles," ") # create a list of vehicles of interest.
                     }
