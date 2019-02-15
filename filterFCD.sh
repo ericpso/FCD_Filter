@@ -16,7 +16,7 @@ Interest_Infect=0
 Time_tracking=0
 max_jumps=1
 
-output_file="./filtered/filtered_${!#}"
+output_filename=""
 
 declare -a tracked_v
 
@@ -64,19 +64,17 @@ OPTIONS:
                      from option \"-b\" are ignored and vehicles are not set
                      for tracking.
   -s                Vehicles that go in contact with vehicles of interest become 
-                     vehicles of interest themselves.
+                     infected vehicles and behave like vehicles of interest 
+                     themselves.
   -a                Vehicles that go in contact with vehicles of interest get 
                      tracked backwards in time and infect others backwards in 
                      time.
-  -o [filename]     Renames the output file that is sent to ./filtered/ as 
-                     \"filename\".
   -z                Shift timesteps so that the first timestep is at the moment 
-                     0 of the simulation."
+                     0 of the simulation.
+  -o [filename]     Renames the output file that is sent to ./filtered/ as 
+                     \"filename\". If an empty string is entered, the default 
+                     output file's name is used."
 
-        ;;
-
-        o)
-        output_file="./filtered/$OPTARG"
         ;;
 
         d)
@@ -170,6 +168,11 @@ OPTIONS:
         Delta_time=1
         ;;
 
+        o)
+        output_filename=$OPTARG
+
+        ;;
+
         \?)
         echo "Invalid option given." >&2
         echo "Type \"filterFCD -h\" for help." >&2
@@ -195,6 +198,11 @@ if [ $max_jumps -eq 0 ]
     then
     Interest_Infect=0
     Time_tracking=0
+fi
+
+if [[ -z  $output_filename  ]]
+then
+    output_filename=filtered_$1
 fi
 
 mkdir -p ./filtered
@@ -271,7 +279,7 @@ then
                     }
 
                     1
-                ' > output_file; else cat > output_file; fi
+                ' > ./filtered/$output_filename; else cat > ./filtered/$output_filename; fi
 else 
     if [ $Time_tracking -eq 1 ]
         then
@@ -554,6 +562,18 @@ else
     if [[ boxFilter -eq 1 ]]; then
         if [[ $optimal_Box -eq 1 ]] # If optimal_Box==1 then a first scan is necessary to get the ideal bounding box.
         then 
+            # Need to get a initializer for the min and max coordinates so sample from the first vehicle of interest found.
+            for v in $vehicles
+            do
+            init=($(sed -n "/"id=\"$v"/p" $1 | cut -sd"\"" --output-delimiter=" " -f4,6))
+            if [ ! -z $init ]
+            then
+            break
+            fi
+            done
+
+            if [ -z $init ]; then echo "No vehicle of interest was found for option \"-b\"" >&2 ; exit 1; fi
+
             # First the file is time filtered if BEGIN and END are specified. Then, they are piped to an awk.
             Box=($(if [[ ! -z $BEGIN ]]; then awk -v start=$BEGIN -v end=$END '
                 BEGIN{
@@ -568,7 +588,7 @@ else
 
                 output_line;
                 ' $1; else cat $1; fi  |
-                awk -v vehicles="${vehicles[*]}" -v distance=$distance -v min_x=inf -v min_y=inf -v max_x=-inf -v max_y=-inf '
+                awk -v vehicles="${vehicles[*]}" -v distance=$distance -v min_x=${init[0]} -v min_y=${init[1]} -v max_x=${init[0]} -v max_y=${init[1]} '
                     BEGIN{FS="\""; # define field separator as "
                     split(vehicles,myVehicles," ") # create a list of vehicles of interest.
                     }
@@ -906,7 +926,7 @@ else
         else print
 
 
-        }' > "output_file"
+        }' > "./filtered/$output_filename"
     ;;
 
 
@@ -1112,7 +1132,7 @@ else
         else print
 
 
-        }' > "output_file"
+        }' > "./filtered/$output_filename"
     ;;
     esac
 fi
@@ -1130,7 +1150,7 @@ if [[ Delta_time -eq 1 ]]
             $2="\""$2-first_timestep"\""
         }
         1
-    ' output_file > ./filtered/D_filtered_$1
+    ' ./filtered/$output_filename > ./filtered/D_$output_filename
 
-mv -f ./filtered/D_filtered_$1 output_file
+mv -f ./filtered/D_$output_filename ./filtered/$output_filename
 fi
