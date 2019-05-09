@@ -22,7 +22,7 @@ declare -a tracked_v
 
 
 # Get the program options
-while getopts "crv:k:hd:j:btisazo:" OPTION; do
+while getopts "cv:k:hd:j:btisazo:" OPTION; do
     case $OPTION in
         h)
 echo "Usage: ./filterFCD.sh OPTIONS... [FILE]
@@ -42,7 +42,6 @@ OPTIONS:
   -h                Displays this help page.
   -c                Filter vehicles inside a square around the vehicles of
                      interest (faster filtering).
-  -r                Filter a radial distance from the vehicles of interest.
   -d [distance]     Define the filtering distance used by the cubic and radial
                      filtering. Default value is 500 units.
   -j [# max_jumps]  Define the maximum number of jumps a infection of interest
@@ -117,10 +116,6 @@ OPTIONS:
 
         c)
         filterMode=1
-        ;;
-
-        r)
-        filterMode=2
         ;;
 
         b)
