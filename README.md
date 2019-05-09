@@ -24,8 +24,6 @@ The application filters the FCD output trace from SUMO simulation and save the
   
   **-c:**               Filter vehicles inside a square around the vehicles of
                      interest (faster filtering).
-                     
-  **-r:**               Filter a radial distance from the vehicles of interest.
   
   **-d [distance]:**     Define the filtering distance used by the cubic and radial
                      filtering. Default value is 500 units.
