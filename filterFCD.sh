@@ -219,7 +219,7 @@ then
         output_line;
         END{if (output_line==0) {print "</fcd-export>"}}
 
-    ' $1 ; else cat $1; fi  | if [[ ! -z Box ]]
+    ' $1 ; else cat $1; fi  | if [[ ! -z $Box ]]
         then awk -v tracking_F=$tracking_F -v tracked_v="${tracked_v[*]}" -v box_bound=$box_bound -v B_x1=${Box[0]} -v B_y1=${Box[1]} -v B_x2=${Box[2]} -v B_y2=${Box[3]} '
                 BEGIN{
                     FS="\""   # define field separator as "
